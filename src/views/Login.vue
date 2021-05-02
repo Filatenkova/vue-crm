@@ -19,7 +19,7 @@
           class="helper-text invalid">Поле e-mail не должно быть пустым
         </small>
         <small
-          v-else-if-="$v.email.$dirty && !$v.email.email"
+          v-else-if="$v.email.$dirty && !$v.email.email"
           class="helper-text invalid">Введите корректный e-mail
         </small>
       </div>
@@ -58,7 +58,7 @@
 
       <p class="center">
         Нет аккаунта?
-        <router-link to="/">Зарегистрироваться</router-link>
+        <router-link to="/register">Зарегистрироваться</router-link>
       </p>
     </div>
   </form>
@@ -67,6 +67,9 @@
 <script>
 
 import { email, required, minLength } from 'vuelidate/lib/validators';
+// eslint-disable-next-line max-len
+// eslint-disable-next-line import/extensions,import/no-named-as-default,import/no-named-as-default-member
+import messages from '../utils/messages.js';
 
 export default {
   name: 'login',
@@ -77,6 +80,11 @@ export default {
   validations: {
     email: { email, required },
     password: { required, minLength: minLength(6) },
+  },
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message]);
+    }
   },
   methods: {
     submitHandler() {
